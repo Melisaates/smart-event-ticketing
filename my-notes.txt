@@ -1,0 +1,5 @@
+nest new <services-names>
+// Choose npm as package manager
+cd <services-names>
+npm i // install dependencies in each service folder
+npm run start:dev // execute this command in each service folder to start the services in development mode and watch for changes
