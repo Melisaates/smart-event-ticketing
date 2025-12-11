@@ -1,18 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Ticket } from './entities/ticket.entity';
-import { CreateTicketDto } from './dtos/create-ticket.dto';
-import { UpdateTicketDto } from './dtos/update-ticket.dto';
+import { ClientKafka } from '@nestjs/microservices/client/client-kafka';
 import { timestamp } from 'rxjs';
 
 //This code that publishes events to Kafka
 //So, we added producer for Kafka in the TicketService
-import { ClientKafka, ClientsModule, Transport } from '@nestjs/microservices';
 @Injectable()
 export class TicketService {
     constructor(
-        @Inject(KAFKA_PRODUCER)
+        @Inject('KAFKA_PRODUCER')
         private readonly kafka: ClientKafka
     ) {}
 
