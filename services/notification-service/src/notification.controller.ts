@@ -1,8 +1,13 @@
 import { Controller } from "@nestjs/common";
+import { MessagePattern, Payload } from "@nestjs/microservices";
 
 
-@Controllerexport class NotificationController {
+@Controller()
+export class NotificationController {
     // Here, you would typically inject a service to handle the notification logic
-    constructor() {}
-    // You can add methods to handle incoming events and send notifications
-}() 
+    @MessagePattern('ticket-events')
+    async handleTicketEvents(@Payload() message: any) {
+        // Process the incoming event data
+    console.log('📩 Event received:', message.value);
+    }
+}
