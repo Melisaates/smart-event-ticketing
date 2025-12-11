@@ -53,3 +53,8 @@ npm error A complete log of this run can be found in: C:\Users\melisates\AppData
 PS C:\Users\melisates\development\smart-event-ticketing\services\ticket-service> npm install @nestjs/microservices@10  kafkajs 
 
 
+//call api to buy ticket in powershell
+ Invoke-RestMethod -Uri http://localhost:3001/tickets/buy `
+>>     -Method POST `
+>>     -ContentType "application/json" `
+>>     -Body (@{ticketId=22; userId="melisa"} | ConvertTo-Json)

@@ -2,6 +2,8 @@ import { Module } from "@nestjs/common";
 import e from "express";
 import { TicketService } from "./ticket.service";
 import { ClientsModule, Transport } from "@nestjs/microservices";
+import { TicketController } from "./ticket.controller";
+import { Partitioners } from "kafkajs";
 
 
 
@@ -15,6 +17,8 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
                     options: {
                         client: {
                             brokers: ['localhost:9092'],
+                            createPartitioner: Partitioners.LegacyPartitioner,
+
                         },
                         producer: {
                             allowAutoTopicCreation: false
@@ -23,7 +27,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
                 },
             ])
         ],
-        controllers: [TicketService],
+        controllers: [TicketController],
         providers: [TicketService],
     }
 ) export class TicketModule { }
