@@ -3,3 +3,53 @@ nest new <services-names>
 cd <services-names>
 npm i // install dependencies in each service folder
 npm run start:dev // execute this command in each service folder to start the services in development mode and watch for changes
+
+// To run all services together, use Docker Compose
+docker-compose -f infrastructure/docker/docker-compose.yml up
+// Make sure Docker is installed and running on your machine    
+// Access services via their respective ports as defined in the docker-compose file
+// For example, if a service is mapped to port 3000, access it via http://localhost:3000
+
+// To stop all services, use:
+docker-compose -f infrastructure/docker/docker-compose.yml down
+
+docker exec -it kafka bash
+```bash
+[appuser@8523122c0bfb ~]$ kafka-topics --create \
+> --topic ticket-events \
+> --bootstrap-server localhost:9092 \
+> partiton 3 \
+> partiton 3 \
+> replication-factor 1 // Adjust partitions and replication factor as needed . broker numbers 
+Created topic ticket-events.
+```
+//list topics
+kafka-topics --list --bootstrap-server localhost:9092 
+
+cd services/ticket-service 
+PS C:\Users\melisates\development\smart-event-ticketing\services\ticket-service> npm install @nestjs/microservices 
+npm error code ERESOLVE
+npm error ERESOLVE unable to resolve dependency tree
+npm error
+npm error While resolving: ticket-service@0.0.1
+npm error Found: @nestjs/common@10.4.20
+npm error node_modules/@nestjs/common
+npm error   @nestjs/common@"^10.0.0" from the root project
+npm error
+npm error Could not resolve dependency:
+npm error peer @nestjs/common@"^11.0.0" from @nestjs/microservices@11.1.9
+npm error node_modules/@nestjs/microservices
+npm error   @nestjs/microservices@"*" from the root project
+npm error
+npm error Fix the upstream dependency conflict, or retry
+npm error this command with --force or --legacy-peer-deps
+npm error to accept an incorrect (and potentially broken) dependency resolution.
+npm error
+npm error
+npm error For a full report see:
+npm error C:\Users\melisates\AppData\Local\npm-cache\_logs\2025-12-11T09_18_07_931Z-eresolve-report.txt
+npm error A complete log of this run can be found in: C:\Users\melisates\AppData\Local\npm-cache\_logs\2025-12-11T09_18_07_931Z-debug-0.log
+//solution
+PS C:\Users\melisates\development\smart-event-ticketing\services\ticket-service> npm install @nestjs/microservices@10  kafkajs 
+
+
