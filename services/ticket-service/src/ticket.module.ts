@@ -4,6 +4,7 @@ import { TicketService } from "./ticket.service";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { TicketController } from "./ticket.controller";
 import { Partitioners } from "kafkajs";
+import { TicketConsumer } from "./kafka/ticket.consumer";
 
 
 
@@ -28,6 +29,6 @@ import { Partitioners } from "kafkajs";
             ])
         ],
         controllers: [TicketController],
-        providers: [TicketService],
+        providers: [TicketService, TicketConsumer],
     }
 ) export class TicketModule { }
