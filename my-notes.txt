@@ -1,4 +1,5 @@
 nest new <services-names>
+nest g res <resource-name> // generate resource inside each service folder
 // Choose npm as package manager
 cd <services-names>
 npm i // install dependencies in each service folder
