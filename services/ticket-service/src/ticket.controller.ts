@@ -12,6 +12,10 @@ export class TicketController {
 
   }
    
-
+  // @Post('update')
+  // async updateTicket(@Body() body: { ticketId: string; oldPrice: number; newPrice: number }) {
+    
+  //   return this.ticketService.publishPriceUpdatedEvent(body.ticketId, body.oldPrice, body.newPrice);
+  // }
 
 }

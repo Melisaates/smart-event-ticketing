@@ -6,6 +6,7 @@ import { timestamp } from 'rxjs';
 //So, we added producer for Kafka in the TicketService
 @Injectable()
 export class TicketService {
+  
     constructor(
         @Inject('KAFKA_PRODUCER')
         private readonly kafka: ClientKafka
@@ -29,5 +30,20 @@ export class TicketService {
         return event;
 
     }
+
+    publishPriceUpdatedEvent(data :{ticketId: string, oldPrice: number, newPrice: number}) {
+        const event = {
+            type: 'PriceUpdated',
+            ticketId: data.ticketId,
+            oldPrice: data.oldPrice,
+            newPrice: data.newPrice,
+            timestamp: Date.now(),
+    };
+        // Publish the event to Kafka
+        this.kafka.emit('ticket-events', event);
+        return event;
+
+  }
+    
 
 }
