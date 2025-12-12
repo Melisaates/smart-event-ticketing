@@ -59,3 +59,20 @@ PS C:\Users\melisates\development\smart-event-ticketing\services\ticket-service>
 >>     -Method POST `
 >>     -ContentType "application/json" `
 >>     -Body (@{ticketId=22; userId="melisa"} | ConvertTo-Json)
+
+//check logs in kafka container
+docker exec -it kafka bash
+
+//install prisma client
+npm install prisma --save-dev
+npm install @prisma/client
+npx prisma init
+
+npx prisma generate// generate prisma client after any change in schema.prisma
+//push schema changes to database
+npx prisma db push
+npx prisma studio   
+//create migration
+npx prisma migrate dev --name init
+//to run prisma studio
+npx prisma studio
