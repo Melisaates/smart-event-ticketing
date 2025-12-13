@@ -79,3 +79,60 @@ npx prisma studio
 
 npm install @types/bcrypt 
 npm install @types/jsonwebtoken
+
+
+npm uninstall @prisma/client prisma
+npm install prisma@4.14.0 @prisma/client@4.14.0
+npx prisma generate
+
+
+
+Invoke-RestMethod -Uri "http://localhost:3000/auth/register" -Method POST -ContentType "application/json" -Body (@{name="melisats"; email="atesmel12@gmail.com"; password="123"} | ConvertTo-Json)
+
+
+PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> Invoke-RestMethod -Uri "http://localhost:3000/auth/register" -Method POST -ContentType "application/json" -Body (@{name="melisats"; email="atesmel12@gmail.com"; password="123"} | ConvertTo-Json)
+
+PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> Invoke-RestMethod -Uri "http://localhost:3000/auth/login" -Method POST -ContentType "application/json" -Body (@{email="atesmel12@gmail.com"; password="123"} | ConvertTo-Json)                         
+
+accessToken
+-----------
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoiYXRlc21lbDEyQGdtYWlsLmNvbSIsImlhdCI6MTc2NTYyNTAxNSwiZXhwIjoxNzY1NjI4NjE1fQ.orfKxi... 
+
+
+PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> Invoke-RestMethod -Uri "http://localhost:3000/auth/login" -Method POST -ContentType "application/json" -Body (@{email="atesmel12@gmail.com"; password="1253"} | ConvertTo-Json)
+Invoke-RestMethod : {"message":"Invalid credentials","error":"Unauthorized","statusCode":401}
+At line:1 char:1
++ Invoke-RestMethod -Uri "http://localhost:3000/auth/login" -Method POS ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-RestMethod], WebException
+    + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeRestMethodCommand
+PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> 
+
+
+//get all users
+PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> Invoke-RestMethod -Uri "http://localhost:3000/users" -Method GET         
+
+id name     email
+-- ----     -----
+ 1 melisats atesmel12@gmail.com
+
+
+PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> 
+
+//get one users with id
+PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> Invoke-RestMethod -Uri "http://localhost:3000/users/1" -Method GET
+
+
+id        : 1
+name      : melisats
+email     : atesmel12@gmail.com
+password  : $2b$10$zMGTTuGKOkHs0YspT4e8J.GXSvSaVYSGvR8ce2uq3XJbLNiO1qAza
+createdAt : 2025-12-13T11:22:43.023Z
+updatedAt : 2025-12-13T11:22:43.023Z
+role      : USER
+
+
+
+PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> 
+
+
