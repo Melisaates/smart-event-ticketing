@@ -1,15 +1,13 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
-import Prisma from "@prisma/client";
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+
+// Dynamic import ile PrismaClient alıyoruz
+const { PrismaClient } = require('@prisma/client');
 
 @Injectable()
-export class PrismaService extends Prisma implements OnModuleInit, OnModuleDestroy {
-
-  constructor() {
-    super({
-      datasourceUrl: process.env.DATABASE_URL, // Prisma 7 gereği
-    });
-  }
-
+export class PrismaService
+  extends PrismaClient
+  implements OnModuleInit, OnModuleDestroy
+{
   async onModuleInit() {
     await this.$connect();
   }

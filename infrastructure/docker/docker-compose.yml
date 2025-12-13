@@ -40,7 +40,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: smart_ticketing
+      POSTGRES_DB: smart_event_ticketing
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     volumes:
@@ -50,68 +50,71 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-  redis:
-    image: redis:7-alpine
-    container_name: redis
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-  user-service:
-    build:
-      context: ../../services/user-service
-      dockerfile: Dockerfile
-    container_name: user-service
-    ports:
-      - "3000:3000"
-    environment:
-      - .env
-    depends_on:
-      postgres:
-        condition: service_healthy
-  event-service:
-    build:
-      context: ../../services/event-service
-      dockerfile: Dockerfile
-    container_name: event-service
-    ports:
-      - "3002:3000" 
-    environment:
-      - .env  
-    depends_on:
-      postgres:
-        condition: service_healthy
-  ticket-service:
-    build:
-      context: ../../services/ticket-service
-      dockerfile: Dockerfile    
-    container_name: ticket-service
-    ports:
-      - "3001:3000"
-    environment:
-      - .env  
-    depends_on:
-      redis:
-        condition: service_started
-      postgres:
-        condition: service_healthy
-      kafka:
-        condition: service_started
-  notification-service:
-    build:
-      context: ../../services/notification-service
-      dockerfile: Dockerfile    
-    container_name: notification-service
-    ports:
-      - "3003:3000"
-    environment:
-      - .env  
-    depends_on:
-      kafka:
-        condition: service_started
+  # redis:
+  #   image: redis:7-alpine
+  #   container_name: redis
+  #   ports:
+  #     - "6379:6379"
+  #   healthcheck:
+  #     test: ["CMD", "redis-cli", "ping"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  # user-service:
+  #   build:
+  #     context: ../../services/user-service
+  #     dockerfile: Dockerfile
+  #   container_name: user-service
+  #   ports:
+  #     - "3000:3000"
+  #   environment:
+  #     - .env
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  # event-service:
+  #   build:
+  #     context: ../../services/event-service
+  #     dockerfile: Dockerfile
+  #   container_name: event-service
+  #   ports:
+  #     - "3002:3000" 
+  #   environment:
+  #     - .env  
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  # ticket-service:
+  #   build:
+  #     context: ../../services/ticket-service
+  #     dockerfile: Dockerfile    
+  #   container_name: ticket-service
+  #   ports:
+  #     - "3001:3000"
+  #   environment:
+  #     - .env  
+  #   depends_on:
+  #     redis:
+  #       condition: service_started
+  #     postgres:
+  #       condition: service_healthy
+  #     kafka:
+  #       condition: service_started
+  # notification-service:
+  #   build:
+  #     context: ../../services/notification-service
+  #     dockerfile: Dockerfile    
+  #   container_name: notification-service
+  #   ports:
+  #     - "3003:3000"
+  #   environment:
+  #     - .env  
+  #   depends_on:
+  #     kafka:
+  #       condition: service_started
 
 volumes:
   postgres-data:
+  kafka-data:
+  zookeeper-data:
+  zookeeper-logs:
