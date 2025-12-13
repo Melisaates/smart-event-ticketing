@@ -11,4 +11,15 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event{
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  date DateTime
+  location String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
