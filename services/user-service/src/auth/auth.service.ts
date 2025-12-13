@@ -1,26 +1,64 @@
-import { Injectable } from '@nestjs/common';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/login.dto';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { PrismaService } from 'src/prisma.service';
+import { RegisterDto } from './dto/register.dto';
+import { LoginDto } from './dto/login.dto';
+// bcrypt means for hashing passwords
+import * as bcrypt from 'bcryptjs';
+// jwt means for generating JSON Web Tokens for authentication
+import * as jwt from 'jsonwebtoken';
+import e from 'express';
+import { env } from 'process';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
+  constructor   (private prisma : PrismaService) {}
+
+  async login(loginDto: LoginDto) {
+
+    const { email, password } = loginDto;
+
+    // Find the user by email
+    const user = await this.prisma.user.findUnique({ where: { email } });
+    if(!user) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+    // Compare the provided password with the stored hashed password
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if(!isPasswordValid) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    // Generate a JWT token. why: because after login we need to give token to user for further request
+    const accessToken = jwt.sign(
+      { userId: user.id, email: user.email },
+      env.JWT_SECRET ,
+      { expiresIn: Number (env.JWT_EXPIRES_IN) }
+    )
+    return { accessToken };
+  }
+  
+  async register(registerDto : RegisterDto){
+    const {name, email , password} = registerDto;
+
+    // Check if user already exists
+    const existingUser = await this.prisma.user.findUnique({ where :{ email } });
+    if (existingUser) {
+      throw new UnauthorizedException( 'User already exists' );
+  }
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create the user
+    const user = await this.prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword
+      }
+    })
   }
 
-  findAll() {
-    return `This action returns all auth`;
-  }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
-  }
+  
 }

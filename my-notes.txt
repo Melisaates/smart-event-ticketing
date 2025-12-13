@@ -76,3 +76,6 @@ npx prisma studio
 npx prisma migrate dev --name init
 //to run prisma studio
 npx prisma studio
+
+npm install @types/bcrypt 
+npm install @types/jsonwebtoken
