@@ -4,6 +4,6 @@ import { TicketsController } from './tickets.controller';
 
 @Module({
   controllers: [TicketsController],
-  providers: [TicketsService, PrismaService],
+  providers: [TicketsService],
 })
 export class TicketsModule {}
