@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices/client/client-kafka';
 import { timestamp } from 'rxjs';
-import { TicketConsumer } from './kafka/ticket.consumer';
+import { TicketConsumer } from './kafka/kafka.service';
 
 //This code that publishes events to Kafka
 //So, we added producer for Kafka in the TicketService

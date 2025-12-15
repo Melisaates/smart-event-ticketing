@@ -8,8 +8,10 @@ export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
 
   @Post()
-  create(@Body() createTicketDto: CreateTicketDto) {
-    return this.ticketsService.create(createTicketDto);
+  async create(@Body() data:{eventId:number,price :number}) {
+    const ticket = await this.ticketsService.create({data});
+    
+
   }
 
   @Get()

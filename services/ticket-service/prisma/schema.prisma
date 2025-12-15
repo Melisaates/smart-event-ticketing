@@ -9,3 +9,20 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum TicketStatus {
+  AVAILABLE
+  RESERVED
+  SOLD
+}
+
+model Ticket {
+  id         String   @id @default(cuid())
+  eventId    String
+  seatNumber String
+  price     Float
+  status    TicketStatus @default(AVAILABLE)
+  createdAt  DateTime @default(now())
+
+  @@unique([eventId, seatNumber])
+}
