@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { KafkaService } from 'src/kafka/kafka.service';
+import { PrismaService } from 'prisma/prisma.service';
 
 @Injectable()
 export class TicketsService {
@@ -11,8 +12,15 @@ export class TicketsService {
     private kafkaService: KafkaService
   ) {}
 
-  create(createTicketDto: CreateTicketDto) {
-    return 'This action adds a new ticket';
+  async create(data: {eventId:number,price :number}) {
+    const ticket = await this.prismaService.ticket.create({
+      data: {
+        eventId: data.eventId,
+        price: data.price
+      }
+    });
+    await this.kafkaService.produce('ticket.created', ticket);
+    return ticket;
   }
 
   findAll() {
@@ -20,14 +28,27 @@ export class TicketsService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} ticket`;
+    return this.prismaService.ticket.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateTicketDto: UpdateTicketDto) {
-    return `This action updates a #${id} ticket`;
+  async update(id: string,data:{price? :number,status?:string}) {
+    const ticket = await this.prismaService.ticket.update({
+      where: { id: Number(id) },
+      data
+    });
+
+    if(data.price !== undefined){
+      await this.kafkaService.produce('ticket.price.updated', ticket);
+    }
+
+    return ticket;
   }
 
   remove(id: number) {
-    return `This action removes a #${id} ticket`;
+    return this.prismaService.ticket.delete({
+      where: { id },
+    });
   }
 }

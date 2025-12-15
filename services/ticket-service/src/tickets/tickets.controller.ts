@@ -8,9 +8,8 @@ export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
 
   @Post()
-  async create(@Body() data:{eventId:number,price :number}) {
-    const ticket = await this.ticketsService.create({data});
-    
+  async create(@Body() body:{eventId:number,price :number}) {
+    return this.ticketsService.create(body);
 
   }
 
@@ -25,8 +24,8 @@ export class TicketsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTicketDto: UpdateTicketDto) {
-    return this.ticketsService.update(+id, updateTicketDto);
+  update(@Param('id') id: string, @Body() body:{price? :number,status?:string}) {
+    return this.ticketsService.update(id, body);
   }
 
   @Delete(':id')
