@@ -135,4 +135,11 @@ role      : USER
 
 PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> 
 
+// create topic in kafka container
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --create --topic ticket.price.updated partitions 1 replication-factor 1
 
+//list topics
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --list
+
+//delete topic
+docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --delete --topic ticket.price.updated

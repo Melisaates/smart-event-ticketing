@@ -6,7 +6,7 @@ import { Kafka, Producer } from "kafkajs";
 @Injectable()
 export class KafkaService implements OnModuleInit, OnModuleDestroy {
     private kafka= new Kafka({
-        brokers: ['localhost:9092'],
+        brokers: [process.env.KAFKA_BROKER || 'localhost:9092'],
     });
     private producer:Producer;
     async onModuleInit() {
