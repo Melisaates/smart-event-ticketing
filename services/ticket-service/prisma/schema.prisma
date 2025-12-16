@@ -17,7 +17,7 @@ enum TicketStatus {
 }
 
 model Ticket {
-  id         String   @id @default(cuid())
+  id         String   @id @default(uuid())
   eventId    String
   seatNumber String
   price     Float

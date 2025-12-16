@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+//  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -20,6 +20,7 @@ model Event{
   description String
   date DateTime
   location String
+  capacity Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

@@ -16,15 +16,15 @@ export class EventsService {
     return this.prisma.event.findMany();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.event.findUnique({where: {id}});
   }
 
-  update(id: number, updateEventDto: UpdateEventDto) {
+  update(id: string, updateEventDto: UpdateEventDto) {
     return this.prisma.event.update({where: {id}, data: updateEventDto});
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prisma.event.delete({where: {id}});
   }
 }

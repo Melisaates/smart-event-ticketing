@@ -10,7 +10,7 @@ export class UsersService {
     return this.prisma.user.findMany({select : {id: true, name: true, email: true}});
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prisma.user.findUnique({where: {id}});
   }
 

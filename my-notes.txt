@@ -122,6 +122,8 @@ PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\se
 //get one users with id
 PS C:\Users\melisates\development\smart-event-ticketing\smart-event-ticketing\services\user-service> Invoke-RestMethod -Uri "http://localhost:3000/users/1" -Method GET
 
+Invoke-RestMethod -Uri "http://localhost:3000/users/1" -Method GET
+
 
 id        : 1
 name      : melisats
