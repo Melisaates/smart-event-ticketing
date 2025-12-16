@@ -8,7 +8,7 @@ export class TicketsController {
   constructor(private readonly ticketsService: TicketsService) {}
 
   @Post()
-  async create(@Body() body:{eventId:number,price :number}) {
+  async create(@Body() body: CreateTicketDto) {
     return this.ticketsService.create(body);
 
   }
@@ -20,16 +20,16 @@ export class TicketsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.ticketsService.findOne(+id);
+    return this.ticketsService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body:{price? :number,status?:string}) {
+  update(@Param('id') id: string, @Body() body: UpdateTicketDto) {
     return this.ticketsService.update(id, body);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.ticketsService.remove(+id);
+    return this.ticketsService.remove(id);
   }
 }

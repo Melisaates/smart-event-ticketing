@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices/client/client-kafka';
 import { timestamp } from 'rxjs';
-import { TicketConsumer } from './kafka/kafka.service';
+//import { TicketConsumer } from './kafka/kafka.service';
 
 //This code that publishes events to Kafka
 //So, we added producer for Kafka in the TicketService
@@ -9,7 +9,7 @@ import { TicketConsumer } from './kafka/kafka.service';
 export class TicketService {
   
     constructor(
-        private readonly ticketConsumer: TicketConsumer,
+       // private readonly ticketConsumer: TicketConsumer,
         @Inject('KAFKA_PRODUCER')
         private readonly kafka: ClientKafka
     ) {}
@@ -40,7 +40,7 @@ export class TicketService {
             newPrice: data.newPrice,
             timestamp: Date.now(),
     };
-        this.ticketConsumer.processPriceUpdate(event);
+       // this.ticketConsumer.processPriceUpdate(event);
         return event;
 
   }

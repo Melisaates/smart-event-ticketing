@@ -7,7 +7,7 @@ import { KafkaModule } from './kafka/kafka.module';
 
 @Module({
   //the reason why is
-  imports: [TicketModule, TicketsModule, KafkaModule],
+  imports: [TicketsModule, KafkaModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -12,12 +12,10 @@ export class TicketsService {
     private kafkaService: KafkaService
   ) {}
 
-  async create(data: {eventId:number,price :number}) {
+  // 
+  async create(createTicketDto: CreateTicketDto) {
     const ticket = await this.prismaService.ticket.create({
-      data: {
-        eventId: data.eventId,
-        price: data.price
-      }
+    data : createTicketDto
     });
     await this.kafkaService.produce('ticket.created', ticket);
     return ticket;
@@ -27,26 +25,29 @@ export class TicketsService {
     return `This action returns all tickets`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.prismaService.ticket.findUnique({
       where: { id },
     });
   }
 
-  async update(id: string,data:{price? :number,status?:string}) {
+  async update(id: string, updateTicketDto: UpdateTicketDto) {
     const ticket = await this.prismaService.ticket.update({
-      where: { id: Number(id) },
-      data
+      where: { id: id },
+      data: {
+        price: updateTicketDto.price,
+        status: updateTicketDto.TicketStatus
+      },
     });
 
-    if(data.price !== undefined){
+    if(updateTicketDto.price !== undefined){
       await this.kafkaService.produce('ticket.price.updated', ticket);
     }
 
     return ticket;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.prismaService.ticket.delete({
       where: { id },
     });
