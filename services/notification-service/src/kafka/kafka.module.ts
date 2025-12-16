@@ -9,11 +9,12 @@ import { KAFKA_HANDLERS } from './kafka.contants';
   providers: [
     KafkaConsumer,
     RetryService,
-
     TicketCreatedHandler,
     TicketPriceUpdatedHandler,
 
     {
+        // This factory will gather all handlers into an array
+        
       provide: KAFKA_HANDLERS,
       useFactory: (
         ticketCreated: TicketCreatedHandler,
