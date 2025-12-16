@@ -14,15 +14,29 @@ export class TicketsService {
 
   // 
   async create(createTicketDto: CreateTicketDto) {
+
+    const {eventId, price, seatNumber} = createTicketDto;
+
+    const existingTicket = await this.prismaService.ticket.findFirst({
+      where: {
+        eventId,
+        seatNumber
+      }
+    });
+    if (existingTicket) {
+      throw new Error('Ticket for this seat already exists for the event');
+    }
+
     const ticket = await this.prismaService.ticket.create({
     data : createTicketDto
     });
+  
     await this.kafkaService.produce('ticket.created', ticket);
     return ticket;
   }
 
   findAll() {
-    return `This action returns all tickets`;
+    return this.prismaService.ticket.findMany();
   }
 
   findOne(id: string) {
