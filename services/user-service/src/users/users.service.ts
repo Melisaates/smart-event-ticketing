@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
-import { PrismaService } from 'src/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
   async createUser (email:string,password:string,name?:string){
-    
+
     const existingUser = this.prisma.user.findUnique({where:{email}})
     if (existingUser){
       throw new Error ('User with this email already exists'); 
