@@ -8,10 +8,12 @@ import * as bcrypt from 'bcryptjs';
 import * as jwt from 'jsonwebtoken';
 import e from 'express';
 import { env } from 'process';
+import { RefreshToken } from 'generated/prisma';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
-  constructor   (private prisma : PrismaService) {}
+  constructor   (private prisma : PrismaService, private usersService: UsersService) {}
 
   async login(loginDto: LoginDto) {
 
@@ -58,7 +60,12 @@ export class AuthService {
     })
   }
 
-
+  generate_token(user,userId,expiresIn):
+    accessToken 
+    RefreshToken(
+      user,
+      userId
+    )
 
   
 }
