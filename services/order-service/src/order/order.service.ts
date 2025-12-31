@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Kafka } from 'kafkajs';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService }  from 'src/prisma/prisma.service';
 import { HttpService } from '@nestjs/axios';
 import { KafkaService } from 'src/kafka/kafka.service';
 
@@ -11,7 +11,7 @@ export class OrderService {
   constructor(
     private kafkaProducer: KafkaService,
     private prisma: PrismaService,
-    private http: HttpService,
+    private http: HttpService
 
   ) {}
   async createOrder(userId: string, createOrderDto: CreateOrderDto) {
