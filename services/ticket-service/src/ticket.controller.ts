@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { TicketService } from './ticket.service';
 
@@ -11,7 +11,11 @@ export class TicketController {
     return this.ticketService.publishTicketPurchasedEvent(body.ticketId, body.userId);
 
   }
-   
+   d
+  @Post(':id/reserve')
+  async reserveTicket(@Param('id') ticketId: string) {
+    return this.ticketService.reserveTicket(ticketId);
+  }
   // @Post('update')
   // async updateTicket(@Body() body: { ticketId: string; oldPrice: number; newPrice: number }) {
     
