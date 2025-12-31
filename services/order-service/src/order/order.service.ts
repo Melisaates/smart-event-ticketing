@@ -2,11 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Kafka } from 'kafkajs';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { HttpService } from '@nestjs/axios';
+import { KafkaService } from 'src/kafka/kafka.service';
 
 @Injectable()
 export class OrderService {
   constructor(
-    private kafkaProducer: KafkaProducer,
+    private kafkaProducer: KafkaService,
     private prisma: PrismaService,
     private http: HttpService,
 
@@ -26,7 +29,7 @@ export class OrderService {
       },
     });
 
-    await this.kafkaProducer.sendMessage('order.created', {
+    await this.kafkaProducer.produce('order.created', {
       orderId: order.id,
       userId: order.userId,
       ticketId: createOrderDto.ticketId,
