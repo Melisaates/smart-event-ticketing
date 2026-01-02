@@ -14,8 +14,6 @@ services:
         condition: service_started
       ticket-service:
         condition: service_started
-      notification-service:
-        condition: service_started
       order-service:
         condition: service_started
   zookeeper:
