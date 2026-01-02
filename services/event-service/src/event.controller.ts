@@ -9,4 +9,6 @@ export class EventController {
     async updatePrice(@Body() body: { eventId: string; newPrice: number }) {
         return this.eventService.updatePrice(body.eventId, body.newPrice);
     }
+
+    
 }

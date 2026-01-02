@@ -20,3 +20,4 @@ COPY package.json ./
 ENV NODE_ENV=production
 EXPOSE 3001
 CMD ["node", "dist/main.js"]
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl -f http://localhost:3001/health || exit 1
