@@ -86,7 +86,6 @@ npm install prisma@4.14.0 @prisma/client@4.14.0
 npx prisma generate
 
 
-
 Invoke-RestMethod -Uri "http://localhost:3000/auth/register" -Method POST -ContentType "application/json" -Body (@{name="melisats"; email="atesmel12@gmail.com"; password="123"} | ConvertTo-Json)
 
 
