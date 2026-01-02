@@ -60,58 +60,73 @@ services:
   #     interval: 10s
   #     timeout: 5s
   #     retries: 5
-  # user-service:
-  #   build:
-  #     context: ../../services/user-service
-  #     dockerfile: Dockerfile
-  #   container_name: user-service
-  #   ports:
-  #     - "3000:3000"
-  #   environment:
-  #     - .env
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  # event-service:
-  #   build:
-  #     context: ../../services/event-service
-  #     dockerfile: Dockerfile
-  #   container_name: event-service
-  #   ports:
-  #     - "3002:3000" 
-  #   environment:
-  #     - .env  
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
-  # ticket-service:
-  #   build:
-  #     context: ../../services/ticket-service
-  #     dockerfile: Dockerfile    
-  #   container_name: ticket-service
-  #   ports:
-  #     - "3001:3000"
-  #   environment:
-  #     - .env  
-  #   depends_on:
-  #     redis:
-  #       condition: service_started
-  #     postgres:
-  #       condition: service_healthy
-  #     kafka:
-  #       condition: service_started
-  # notification-service:
-  #   build:
-  #     context: ../../services/notification-service
-  #     dockerfile: Dockerfile    
-  #   container_name: notification-service
-  #   ports:
-  #     - "3003:3000"
-  #   environment:
-  #     - .env  
-  #   depends_on:
-  #     kafka:
-  #       condition: service_started
+  user-service:
+    build:
+      context: ../../services/user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "3000:3000"
+    environment:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+  event-service:
+    build:
+      context: ../../services/event-service
+      dockerfile: Dockerfile
+    container_name: event-service
+    ports:
+      - "3002:3002" 
+    environment:
+      - .env  
+    depends_on:
+      postgres:
+        condition: service_healthy
+  ticket-service:
+    build:
+      context: ../../services/ticket-service
+      dockerfile: Dockerfile    
+    container_name: ticket-service
+    ports:
+      - "3001:3001"
+    environment:
+      - .env  
+    depends_on:
+      # redis:
+      #   condition: service_started
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+  notification-service:
+    build:
+      context: ../../services/notification-service
+      dockerfile: Dockerfile    
+    container_name: notification-service
+    ports:
+      - "3003:3003"
+    environment:
+      - .env  
+    depends_on:
+      kafka:
+        condition: service_started
+  order-service:
+    build:
+      context: ../../services/order-service
+      dockerfile: Dockerfile
+    container_name: order-service
+    ports:
+      - "3005:3005"
+    environment:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+
 
 volumes:
   postgres-data:
