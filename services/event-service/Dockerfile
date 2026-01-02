@@ -1,20 +1,22 @@
-
-FROM node:18-alpine AS builder
+FROM node:18-alpine AS build
 WORKDIR /app
-COPY package*.json ./
-RUN npm ci
+
+COPY package.json package-lock.json ./
+
+RUN npm config set registry https://registry.npmmirror.com \
+ && npm install
+
 COPY . .
 RUN npm run build
 
+
 FROM node:18-alpine AS production
 WORKDIR /app
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-RUN npm ci --only=production
+
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/dist ./dist
+COPY package.json ./
+
 ENV NODE_ENV=production
-
-CMD ["node", "dist/main"]
-
 EXPOSE 3002
-
+CMD ["node", "dist/main.js"]
