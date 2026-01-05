@@ -2,9 +2,7 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-
-RUN npm config set registry https://registry.npmmirror.com \
- && npm install
+RUN npm install
 
 COPY . .
 RUN npm run build
@@ -19,6 +17,6 @@ COPY package.json ./
 
 ENV NODE_ENV=production
 EXPOSE 3003
-RUN npm run build
+
+HEALTHCHECK CMD wget -qO- http://localhost:3003/health || exit 1
 CMD ["node", "dist/main.js"]
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl -f http://localhost:3003/health || exit 1

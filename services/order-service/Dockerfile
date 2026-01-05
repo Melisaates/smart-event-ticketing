@@ -2,13 +2,14 @@ FROM node:18-alpine AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
+RUN npm install
 
-RUN npm config set registry https://registry.npmmirror.com \
- && npm install
+COPY src/prisma ./src/prisma
+RUN npx prisma generate --schema=src/prisma/schema.prisma
 
 COPY . .
 RUN npm run build
-
+RUN npm prune --omit=dev
 
 FROM node:18-alpine AS production
 WORKDIR /app
@@ -19,5 +20,6 @@ COPY package.json ./
 
 ENV NODE_ENV=production
 EXPOSE 3004
+
+HEALTHCHECK CMD wget -qO- http://localhost:3004/health || exit 1
 CMD ["node", "dist/main.js"]
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD curl -f http://localhost:3004/health || exit 1
