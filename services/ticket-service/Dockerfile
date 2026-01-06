@@ -1,26 +1,26 @@
-FROM node:18-alpine AS build
+FROM node:18-bullseye AS build
 WORKDIR /app
 
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm config set registry https://registry.npmmirror.com \
+ && npm ci
 
 COPY src/prisma ./src/prisma
 RUN npx prisma generate --schema=src/prisma/schema.prisma
 
 COPY . .
 RUN npm run build
-RUN npm prune --omit=dev
 
 
-FROM node:18-alpine AS production
+FROM node:18-bullseye
+
 WORKDIR /app
+ENV NODE_ENV=production
 
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/dist ./dist
 COPY package.json ./
 
-ENV NODE_ENV=production
 EXPOSE 3001
-
 HEALTHCHECK CMD wget -qO- http://localhost:3001/health || exit 1
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/src/main.js"]
