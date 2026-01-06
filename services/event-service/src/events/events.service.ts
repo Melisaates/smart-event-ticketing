@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UseGuards } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+// import { Roles } from '../../../shared/decorators/roles.decorator';
+// import { RolesGuard } from '../../../shared/guards/roles.guard';
 
 @Injectable()
 export class EventsService {
@@ -32,6 +34,8 @@ export class EventsService {
     return this.prisma.event.findUnique({where: {id}});
   }
 
+  // @Roles('ADMIN')
+  // @UseGuards(RolesGuard, )
   update(id: string, updateEventDto: UpdateEventDto) {
     return this.prisma.event.update({where: {id}, data: updateEventDto});
   }

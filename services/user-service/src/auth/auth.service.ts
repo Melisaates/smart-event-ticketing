@@ -31,7 +31,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const accessToken = this.generateTokens(user.id, user.email);
+    const accessToken = this.generateTokens(user.id, user.email,user.role);
     return { accessToken };
   }
   
@@ -45,12 +45,12 @@ export class AuthService {
       name
     
     );
-    return this.generateTokens(user.id, user.email);
+    return this.generateTokens(user.id, user.email,user.role);
   }
 
-  private async generateTokens(userId: string, email: string) {
+  private async generateTokens(userId: string, email: string, role: string) {
     const accessToken = jwt.sign(
-      { userId: userId, email: email },
+      { userId: userId, email: email ,role :role},
       env.JWT_SECRET,
       { expiresIn: Number(env.JWT_EXPIRES_IN) }
     );
@@ -85,7 +85,7 @@ export class AuthService {
     // so that we can use it to generate a new access token
     const payload: any = jwt.verify(refreshToken, env.REFRESH_TOKEN_SECRET);
     
-    return this.generateTokens(payload.userId, payload.email);
+    return this.generateTokens(payload.userId, payload.email, payload.role);
 
 
   }

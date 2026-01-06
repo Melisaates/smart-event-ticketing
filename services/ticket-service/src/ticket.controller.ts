@@ -1,6 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { TicketService } from './ticket.service';
+import { RouterModule } from '@nestjs/core';
+import { JwtAuthGuard } from '../../../shared/guards/jwt-auth.guard';
+import { RolesGuard } from '../../../shared/guards/roles.guard';
+import { Roles } from '../../../shared/decorators/roles.decorator';
 
 @Controller('tickets')
 export class TicketController {
@@ -16,10 +20,15 @@ export class TicketController {
   async reserveTicket(@Param('id') ticketId: string) {
     return this.ticketService.reserveTicket(ticketId);
   }
-  // @Post('update')
-  // async updateTicket(@Body() body: { ticketId: string; oldPrice: number; newPrice: number }) {
+
+  @Roles('ADMIN')
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Post('update')
+  async updateTicket(@Body() body: { ticketId: string; oldPrice: number; newPrice: number }) {
     
-  //   return this.ticketService.publishPriceUpdatedEvent(body.ticketId, body.oldPrice, body.newPrice);
-  // }
+    return this.ticketService.publishUpdatePrice({ticketId: body.ticketId, newPrice: body.newPrice});
+  }
 
 }
+
+
