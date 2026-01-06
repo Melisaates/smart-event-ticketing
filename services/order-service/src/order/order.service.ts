@@ -24,8 +24,9 @@ export class OrderService {
     }
     const price = ticket.price;
 
-    await this.http.post(`http://ticket-service/tickets/${createOrderDto.ticketId}/reserve`).toPromise();
+    await this.ticketClient.reserveTicket( createOrderDto.ticketId);
 
+    // Create order in the database
     const order = await this.prisma.order.create({
       data: {
         userId, 
