@@ -5,6 +5,7 @@ import { Kafka } from 'kafkajs';
 import { PrismaService }  from 'src/prisma/prisma.service';
 import { HttpService } from '@nestjs/axios';
 import { KafkaService } from 'src/kafka/kafka.service';
+import { TicketClient } from 'src/ticket/ticket.client';
 
 @Injectable()
 export class OrderService {
@@ -12,11 +13,16 @@ export class OrderService {
     private kafkaProducer: KafkaService,
     private prisma: PrismaService,
     private http: HttpService
+    , private ticketClient: TicketClient
 
   ) {}
   async createOrder(userId: string, createOrderDto: CreateOrderDto) {
-    const ticketResponse = await this.http.get(`http://ticket-service/tickets/${createOrderDto.ticketId}`).toPromise();
-    const {price} = ticketResponse.data;
+    // Call Ticket Service to reserve the ticket
+    const ticket =  await this.ticketClient.getTicket( createOrderDto.ticketId);
+    if (!ticket) {
+      throw new Error('Ticket not found');
+    }
+    const price = ticket.price;
 
     await this.http.post(`http://ticket-service/tickets/${createOrderDto.ticketId}/reserve`).toPromise();
 

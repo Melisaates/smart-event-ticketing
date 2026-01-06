@@ -5,6 +5,7 @@ import { KafkaService } from 'src/kafka/kafka.service';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { env } from 'process';
 import { RedisService } from 'src/redis/redis.service';
+import { EventClient } from 'src/event/event.client';
 
 @Injectable()
 export class TicketsService {
@@ -13,10 +14,13 @@ export class TicketsService {
     private prismaService: PrismaService,
     private kafkaService: KafkaService,
     private redisService: RedisService
+    , private eventClient: EventClient
   ) {}
 
   // 
   async create(createTicketDto: CreateTicketDto) {
+
+    await this.eventClient.validateEvent(createTicketDto.eventId);
 
     const {eventId, price, seatNumber} = createTicketDto;
 
