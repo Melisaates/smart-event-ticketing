@@ -23,6 +23,21 @@ export class KafkaService implements OnModuleInit, OnModuleDestroy {
         });
     }
 
+    async consume(topic: string, groupId: string, handleMessage: (message: any) => Promise<void>) {
+        const consumer = this.kafka.consumer({ groupId });
+        await consumer.connect();
+        await consumer.subscribe({ topic, fromBeginning: true });
+        await consumer.run({
+            eachMessage: async ({ message }) => {
+                if (message.value) {
+                    const parsedMessage = JSON.parse(message.value.toString());
+                    await handleMessage(parsedMessage);
+                }
+            },
+        });
+    }
+    
+
     async onModuleDestroy() {
         await this.producer.disconnect();
         // Clean up Kafka producer/consumer here
