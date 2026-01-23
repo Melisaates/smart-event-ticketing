@@ -1,5 +1,18 @@
 
 services:
+  vault:
+    #dev mode is NOT recommended for production use. To configure vault for production, refer to the official documentation.
+    image: hashicorp/vault:1.14.3
+    container_name: vault
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: root
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0:8200
+    command: "server -dev -dev-listen-address=0.0.0:8200"
+    #cap_add is required to allow vault to lock memory
+    cap_add:
+      - IPC_LOCK
   nginx-gateway:
     build:
       context: ../../infrastructure/nginx-gateway

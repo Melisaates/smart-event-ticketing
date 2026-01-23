@@ -13,7 +13,7 @@ describe('EventsController', () => {
 
     controller = module.get<EventsController>(EventsController);
   });
-
+ 
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });

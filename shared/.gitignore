@@ -47,3 +47,36 @@ pids
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 /generated/prisma
 
+# Vault files
+.vault/
+.secrets.json
+.vault-cache/
+# Ignore any other files related to Vault
+vault-*.json    
+*.vault
+# Ignore any other files related to Vault
+*.secrets.json
+# Ignore IDE specific Vault files
+.vscode/vault.json
+.idea/vault.xml 
+# Ignore temporary Vault files
+*.tmpvault  
+*.vaulttmp
+# Ignore log files related to Vault
+vault.log
+vault-debug.log*
+# Ignore environment variable files related to Vault
+.vault.env
+.vault.local.env
+.vault.production.env
+.vault.development.env
+# Ignore backup files related to Vault
+*.vault.bak
+*.vault.backup
+
+# Ignore any other sensitive configuration files
+config.secrets.json
+config.private.json
+secrets/*.json
+private/*.json
+
