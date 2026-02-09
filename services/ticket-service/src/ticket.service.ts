@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices/client/client-kafka';
 import { timestamp } from 'rxjs';
-import { PrismaService } from './prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 //import { TicketConsumer } from './kafka/kafka.service';
 
 //This code that publishes events to Kafka

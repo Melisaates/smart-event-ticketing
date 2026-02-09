@@ -149,3 +149,4 @@ docker exec -it kafka kafka-topics --bootstrap-server localhost:9092 --delete --
 // Vault setup 
 docker exec -it vault vault login root
 docker exec -it vault vault secrets enable -path=secret kv-v2
+

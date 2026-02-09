@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Kafka } from 'kafkajs';
-import { PrismaService }  from 'src/prisma/prisma.service';
+import { PrismaService }  from 'prisma/prisma.service';
 import { HttpService } from '@nestjs/axios';
 import { KafkaService } from 'src/kafka/kafka.service';
 import { TicketClient } from 'src/ticket/ticket.client';

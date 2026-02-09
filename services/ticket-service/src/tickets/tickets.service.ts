@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateTicketDto } from './dto/create-ticket.dto';
 import { UpdateTicketDto } from './dto/update-ticket.dto';
 import { KafkaService } from 'src/kafka/kafka.service';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'prisma/prisma.service';
 import { env } from 'process';
 import { RedisService } from 'src/redis/redis.service';
 import { EventClient } from 'src/event/event.client';

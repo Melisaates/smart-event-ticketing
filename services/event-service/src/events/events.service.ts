@@ -1,7 +1,7 @@
 import { Injectable, UseGuards } from '@nestjs/common';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'prisma/prisma.service';
 import { KafkaClient } from 'src/kafka/client';
 import { RedisService } from 'src/redis/redis.service';
 // import { Roles } from '../../../shared/decorators/roles.decorator';

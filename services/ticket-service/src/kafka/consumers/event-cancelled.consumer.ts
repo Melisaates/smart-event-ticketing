@@ -1,6 +1,6 @@
 
 import { KafkaService } from "../kafka.service";
-import { PrismaService } from "src/prisma/prisma.service";
+import { PrismaService } from "prisma/prisma.service";
 import { TicketStatus } from "@prisma/client";
 
 export class EventCancelledConsumer {
